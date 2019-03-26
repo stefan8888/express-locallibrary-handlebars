@@ -1,0 +1,76 @@
+<h1>{{{title}}}</h1>
+<form method="POST" action="">
+  
+  <div class="form-group">
+      <label for="title">Title:</label>
+      {{#ifCond undefined book}} 
+      <input class="form-control" id="title" type="text" placeholder="Name of book" name="title" required="true" value=''/>
+      {{else}} 
+      <input class="form-control" id="title" type="text" placeholder="Name of book" name="title" required="true" value={{book.title}}/>
+      {{/ifCond}}
+  </div>
+  
+  <div class="form-group">
+    <label for="author">Author:</label>
+      <select class="form-control" id="author" type="select" placeholder="Select author" name="author" required="true">
+        {{#each authors as |author|}}
+            {{#if book}}
+                {{#ifCondOr author.id_to_string book.author._id author.id_to_string book.author}}
+                <option value={{author._id}} selected="selected">{{author.name}}</option>
+                {{else}}
+                <option value={{author._id}} selected=false>{{author.name}}</option>
+                {{/ifCondOr}}
+            {{else}}
+                <option value={{author._id}}>{{author.name}}</option>
+            {{/if}}
+        {{/each}}
+      </select>
+  </div>
+
+  <div class="form-group">
+    <label for="summary">Summary: </label>
+    {{#ifCond undefined book}}
+    <input class="form-control" id="summary" type="textarea"
+    placeholder="Summary" name="summary" value="" required="true">
+    {{else}}
+    <input class="form-control" id="summary" type="textarea"
+    placeholder="Summary" name="summary" value={{book.summary}} required="true">
+    {{/ifCond}}
+  </div>
+
+  <div class="form-group">
+    <label for="isbn">ISBN: </label>
+    {{#ifCond undefined book}}
+    <input class="form-control" id="isbn" type="text"
+    placeholder="ISBN13" name="isbn" value="" required="true">
+    {{else}}
+    <input class="form-control" id="isbn" type="textarea"
+    placeholder="ISBN13" name="isbn" value="{{book.isbn}}" required="true">
+    {{/ifCond}}
+  </div>
+
+  <div class="form-group">
+    <label>Genre:</label>
+    <div>
+        {{#each genres as |genre|}}
+        <div style="display: inline; padding-right:10px;">
+            <input class="checkbok-input" type="checkbox" name="genre" id={{genre._id}} value="{{genre._id}}" checked="{{genre.checked}}">
+            <label for="{{genre._id}}">{{genre.name}}</label>
+        </div>
+        {{/each}}
+    </div>
+      
+  </div>
+  <button class="btn btn-primary" type="submit">Submit</button>
+
+</form>
+
+
+{{#if errors}} 
+<ul>
+  {{#each errors as |error|}}
+    <li>{{{error.msg}}}</li>
+  {{/each}}
+</ul>
+{{/if}}
+

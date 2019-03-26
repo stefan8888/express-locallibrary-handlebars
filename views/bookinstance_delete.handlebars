@@ -1,0 +1,30 @@
+<h1>{{{title}}}</h1>
+<p><strong>Do you really want to delete this book instance?</strong></p>
+
+<div style="margin-left:20px">
+  <p><strong>ID: </strong> {{bookinstance._id}}</p>
+  <p><strong>Title: </strong><a href="{{bookinstance.book.url}}"></a>{{bookinstance.book.title}}</p>
+  <p><strong>Imprint: </strong>{{bookinstance.imprint}}</p>
+  <p><strong>Status: </strong></p>
+  {{#ifCond bookinstance.status 'Available'}}
+    <span class="text-success">{{bookinstance.status}}</span>
+    {{#ifCond bookinstance.status 'Maintenance'}}
+    <span class="text-danger">{{bookinstance.status}}</span>
+    {{/ifCond}}
+    {{else}}
+    <span class="text-warning">{{bookinstance.status}}</span>
+  {{/ifCond}}
+
+  {{#ifnotCond bookinstance.status 'Available'}}
+  <p><strong>Due back: </strong>{{bookinstance.due_back_formatted}}</p>
+  {{/ifnotCond}}
+
+</div>  
+
+<form method="POST" action=''>
+    <div class="form-group">
+      <input class="form-control" type="hidden" name="id" id="id" required="true" value={{bookinstance._id}}>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form> 
+

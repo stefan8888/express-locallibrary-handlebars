@@ -1,0 +1,39 @@
+<h1>ID : {{{bookinstance._id}}}</h1>
+<p>
+  <strong>
+  Title: <a href="{{{bookinstance.book.url}}}">{{{bookinstance.book.title}}}</a>
+  </strong>
+</p>
+
+<p>
+  <strong>
+  Imprint: {{{bookinstance.imprint}}}
+  </strong>
+</p>
+  
+<p>
+  <strong>
+    Status:
+  </strong>
+  {{#ifCond bookinstance.status 'Available'}}
+    <p class="text-success">{{{bookinstance.status}}}</p>
+  {{else}}
+    {{#ifCond bookinstance.status 'Maintenance'}}
+      <p class="text-danger">{{{bookinstance.status}}}</p>
+      {{else}}
+      <p class="text-warning">{{{bookinstance.status}}}</p>
+    {{/ifCond}}
+  {{/ifCond}}
+</p>
+
+{{#ifnotCond bookinstance.status 'Available'}}
+<p><strong>Due back: {{{bookinstance.due_back_formatted}}}</strong></p>
+{{/ifnotCond}}
+
+<hr>
+<p>
+  <a href="{{bookinstance.url}}/delete"> Delete Bookinstance</a>
+</p>
+<p>
+  <a href="{{bookinstance.url}}/update"> Update Bookinstance</a>
+</p>

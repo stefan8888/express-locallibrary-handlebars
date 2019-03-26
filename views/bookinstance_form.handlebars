@@ -1,0 +1,64 @@
+<h1>{{{title}}}</h1>
+
+<form method="POST" action="">
+  
+  <div class="form-group">
+    <label for="book">Book:</label>
+      <select class="form-control" id="book" type="select" placeholder="Select book" name="book" required="true">
+        {{#each book_list as |book|}}
+            {{#if bookinstance}}
+                {{#ifCond bookinstance.book_to_string book.id_to_string}}
+                <option value={{book._id}} selected="selected">{{book.title}}</option>
+                {{else}}
+                <option value={{book._id}} selected=false>{{book.title}}</option>
+                {{/ifCond}}
+            {{else}}
+                <option value={{book._id}}>{{book.title}}</option>
+            {{/if}}
+        {{/each}}
+      </select>
+  </div>
+
+  <div class="form-group">
+    <label for="imprint"> Imprint: </label>
+    {{#ifCond undefined bookinstance}}
+    <input class="form-control" id="imprint" type="text"
+    placeholder="Publisher and date information" name="imprint" value="" required="true">
+    {{else}}
+    <input class="form-control" id="imprint" type="text"
+    placeholder="Publisher and date information" name="imprint" value="book.imprint" required="true">
+    {{/ifCond}}
+  </div>
+
+  <div class="form-group">
+    <label for="due_back"> Date when book available: </label>
+    {{#ifCond undefined bookinstance}}
+    <input class="form-control" id="due_back" type="date" name="due_back" value="">
+    {{else}}
+    <input class="form-control" id="due_back" type="date" name="due_back" value="bookinstance.due_back">
+    {{/ifCond}}
+  </div>
+
+  <div class="form-group">
+    <label for="status"> Status:</label>
+    <select class="form-control" id="status" type="select" placeholder="Select status" name="status" required="true">
+        <option value=Maintenance>Maintenance</option>
+        <option value=Available>Available</option>
+        <option value=Loaned>Loaned</option>
+        <option value=Reserved>Reserved</option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Submit</button>
+  
+</form>
+
+
+{{#if errors}} 
+<ul>
+  {{#each errors as |error|}}
+    <li>{{{error.msg}}}</li>
+  {{/each}}
+</ul>
+{{/if}}
+
